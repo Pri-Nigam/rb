@@ -1,0 +1,9 @@
+<h1><%= @master.name %></h1>
+<ul>
+  <li><%= link_to "Edit", edit_master_path(@master) %></li>
+  <li><%= link_to "Destroy", master_path(@master), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>
+
