@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_25_114021) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_26_070914) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -18,6 +18,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_114021) do
     t.datetime "updated_at", null: false
     t.string "status"
     t.string "email"
+  end
+
+  create_table "associates", force: :cascade do |t|
+    t.string "name"
+    t.integer "teacher_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teacher_id"], name: "index_associates_on_teacher_id"
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "comments", force: :cascade do |t|
@@ -52,11 +66,57 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_114021) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "memberships", force: :cascade do |t|
+    t.string "role"
+    t.integer "client_id", null: false
+    t.string "project"
+    t.string "references"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_memberships_on_client_id"
+  end
+
   create_table "patients", force: :cascade do |t|
     t.string "name"
     t.string "disease"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "physicians", force: :cascade do |t|
+    t.string "name"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "students", force: :cascade do |t|
+    t.string "name"
+    t.integer "teacher_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teacher_id"], name: "index_students_on_teacher_id"
+  end
+
+  create_table "teachers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "trainees", force: :cascade do |t|
+    t.string "name"
+    t.string "degree"
+    t.integer "physician_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["physician_id"], name: "index_trainees_on_physician_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,6 +126,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_114021) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "associates", "teachers"
   add_foreign_key "comments", "articles"
   add_foreign_key "diseases", "doctors"
+  add_foreign_key "memberships", "clients"
+  add_foreign_key "students", "teachers"
+  add_foreign_key "trainees", "physicians"
 end
