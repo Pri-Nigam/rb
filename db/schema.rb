@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_26_095217) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_31_074032) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -76,9 +76,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_26_095217) do
     t.index ["project_id"], name: "index_memberships_on_project_id"
   end
 
+  create_table "numbers", force: :cascade do |t|
+    t.string "number"
+    t.integer "phone_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_id"], name: "index_numbers_on_phone_id"
+  end
+
   create_table "patients", force: :cascade do |t|
     t.string "name"
     t.string "disease"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "phones", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -148,6 +162,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_26_095217) do
   add_foreign_key "diseases", "doctors"
   add_foreign_key "memberships", "clients"
   add_foreign_key "memberships", "projects"
+  add_foreign_key "numbers", "phones"
   add_foreign_key "students", "teachers"
   add_foreign_key "trainees", "physicians"
 end
