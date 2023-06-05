@@ -13,12 +13,19 @@ class ArticlesController < ApplicationController
   end
 
   def create
+    # byebug
     @article = Article.new(article_params)
+    if @article.save!
+      # byebug
+      ArticleMailer.welcome_email(@article).deliver_now
 
-    if @article.save
+        # format.html { redirect_to(@article, notice: 'User was successfully created.') }
+        # format.json { render json: @article, status: :created, location: @article }
       redirect_to @article
     else
-      render :new, status: :unprocessable_entity
+      # render :new, status: :unprocessable_entity
+      format.html { render action: 'new' }
+      format.json { render json: @article.errors, status: :unprocessable_entity }
     end
   end
 
